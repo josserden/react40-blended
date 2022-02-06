@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/react40-blended/static/css/main.7acaea2f.css",
+    "main.js": "/react40-blended/static/js/main.1904b9b7.js",
+    "static/js/787.6b7abe35.chunk.js": "/react40-blended/static/js/787.6b7abe35.chunk.js",
+    "index.html": "/react40-blended/index.html",
+    "main.7acaea2f.css.map": "/react40-blended/static/css/main.7acaea2f.css.map",
+    "main.1904b9b7.js.map": "/react40-blended/static/js/main.1904b9b7.js.map",
+    "787.6b7abe35.chunk.js.map": "/react40-blended/static/js/787.6b7abe35.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.7acaea2f.css",
+    "static/js/main.1904b9b7.js"
+  ]
+}
