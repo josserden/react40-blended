@@ -6,45 +6,39 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import Avatar from '@mui/material/Avatar';
-import Link from '@mui/material/Link';
+import BasicTableRow from './TableRow';
 
-import passangers from '../data/passengers.json'
-
-
-
+import passengers from '../data/passengers.json';
 export default function BasicTable() {
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>airline name</TableCell>
-            <TableCell>logo</TableCell>
+            <TableCell>Airline name</TableCell>
+            <TableCell>Logo</TableCell>
             <TableCell>Name</TableCell>
-            <TableCell>slogan</TableCell>
-            <TableCell>website</TableCell>
+            <TableCell>Slogan</TableCell>
+            <TableCell>Website</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {passangers.map(passanger => (
-            <TableRow
-              key={passanger._id}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell component="th" scope="row">
-                {passanger.airline.name}
-              </TableCell>
-              <TableCell>
-                <Avatar alt="Remy Sharp" src={passanger.airline.logo} />
-              </TableCell>
-              <TableCell>{passanger.name}</TableCell>
-              <TableCell>{passanger.airline.slogan}</TableCell>
-              <TableCell>
-                    <Link href={passanger.airline.website}>{passanger.airline.website}</Link>
-              </TableCell>
-            </TableRow>
-          ))}
+          {passengers.map(
+            ({
+              _id,
+              airline: { name, logo, slogan, website },
+              name: passengerName,
+            }) => (
+              <BasicTableRow
+                key={_id}
+                airLineName={name}
+                airLineLogo={logo}
+                passengerName={passengerName}
+                airLineSlogan={slogan}
+                airLineWebsite={website}
+              />
+            )
+          )}
         </TableBody>
       </Table>
     </TableContainer>
