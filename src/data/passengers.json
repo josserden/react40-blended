@@ -1,13 +1,10 @@
 [
-  {
-    "totalPassengers": 28596,
-    "totalPages": 2860,
-    "data": [
+  
       {
         "_id": "5ff5bb4d5221017f88a9a4ac",
         "name": "Pedro",
         "trips": null,
-        "": [
+        "airline": 
           {
             "id": 4,
             "name": "Emirates",
@@ -17,15 +14,14 @@
             "head_quaters": "Garhoud, Dubai, United Arab Emirates",
             "website": "www.emirates.com/",
             "established": "1985"
-          }
-        ],
+          },
         "__v": 0
       },
       {
         "_id": "5ff5bbc45221016524a9a4ad",
         "name": "Leonardo",
         "trips": 250,
-        "airline": [
+        "airline": 
           {
             "id": 5,
             "name": "Eva Air",
@@ -36,14 +32,14 @@
             "website": "www.evaair.com",
             "established": "1989"
           }
-        ],
+        ,
         "__v": 0
       },
       {
         "_id": "5ff5bbc45221018367a9a4ae",
         "name": "Pedro",
         "trips": null,
-        "airline": [
+        "airline": 
           {
             "id": 4,
             "name": "Emirates",
@@ -54,14 +50,14 @@
             "website": "www.emirates.com/",
             "established": "1985"
           }
-        ],
+        ,
         "__v": 0
       },
       {
         "_id": "5ff5bbcd5221014092a9a4af",
         "name": "Leonardo",
         "trips": 250,
-        "airline": [
+        "airline": 
           {
             "id": 5,
             "name": "Eva Air",
@@ -72,14 +68,14 @@
             "website": "www.evaair.com",
             "established": "1989"
           }
-        ],
+        ,
         "__v": 0
       },
       {
         "_id": "5ff5bbe8522101065aa9a4b3",
         "name": "Leonardo",
         "trips": 250,
-        "airline": [
+        "airline": 
           {
             "id": 5,
             "name": "Eva Air",
@@ -90,14 +86,14 @@
             "website": "www.evaair.com",
             "established": "1989"
           }
-        ],
+        ,
         "__v": 0
       },
       {
         "_id": "5ff5bbe852210150f5a9a4b4",
         "name": "Pedro",
         "trips": null,
-        "airline": [
+        "airline": 
           {
             "id": 4,
             "name": "Emirates",
@@ -108,14 +104,14 @@
             "website": "www.emirates.com/",
             "established": "1985"
           }
-        ],
+        ,
         "__v": 0
       },
       {
         "_id": "5ff5bc21522101b321a9a4b5",
         "name": "Leonardo",
         "trips": 250,
-        "airline": [
+        "airline": 
           {
             "id": 5,
             "name": "Eva Air",
@@ -126,14 +122,14 @@
             "website": "www.evaair.com",
             "established": "1989"
           }
-        ],
+        ,
         "__v": 0
       },
       {
         "_id": "5ff5bc215221012c51a9a4b6",
         "name": "Pedro",
         "trips": null,
-        "airline": [
+        "airline": 
           {
             "id": 4,
             "name": "Emirates",
@@ -144,14 +140,14 @@
             "website": "www.emirates.com/",
             "established": "1985"
           }
-        ],
+        ,
         "__v": 0
       },
       {
         "_id": "5ff5bc645221017aa5a9a4b7",
         "name": "Leonardo",
         "trips": 250,
-        "airline": [
+        "airline": 
           {
             "id": 5,
             "name": "Eva Air",
@@ -162,14 +158,14 @@
             "website": "www.evaair.com",
             "established": "1989"
           }
-        ],
+        ,
         "__v": 0
       },
       {
         "_id": "5ff5bc7a5221014b2ea9a4b9",
         "name": "Leonardo",
         "trips": 250,
-        "airline": [
+        "airline": 
           {
             "id": 5,
             "name": "Eva Air",
@@ -180,9 +176,7 @@
             "website": "www.evaair.com",
             "established": "1989"
           }
-        ],
+        ,
         "__v": 0
       }
     ]
-  }
-]

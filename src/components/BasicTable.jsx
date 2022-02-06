@@ -6,18 +6,12 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import Avatar from '@mui/material/Avatar';
+import Link from '@mui/material/Link';
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
+import passangers from '../data/passengers.json'
 
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
+
 
 export default function BasicTable() {
   return (
@@ -33,18 +27,22 @@ export default function BasicTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map(row => (
+          {passangers.map(passanger => (
             <TableRow
-              key={row.name}
+              key={passanger._id}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row">
-                {row.name}
+                {passanger.airline.name}
               </TableCell>
-              <TableCell>{row.calories}</TableCell>
-              <TableCell>{row.fat}</TableCell>
-              <TableCell>{row.carbs}</TableCell>
-              <TableCell>{row.protein}</TableCell>
+              <TableCell>
+                <Avatar alt="Remy Sharp" src={passanger.airline.logo} />
+              </TableCell>
+              <TableCell>{passanger.name}</TableCell>
+              <TableCell>{passanger.airline.slogan}</TableCell>
+              <TableCell>
+                    <Link href={passanger.airline.website}>{passanger.airline.website}</Link>
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
