@@ -1,0 +1,7 @@
+.Notification {
+    display: inline-block;
+    margin: 0 auto;
+    font-weight: 700;
+    margin-top: 8rem;
+    font-size: 5rem;
+}
