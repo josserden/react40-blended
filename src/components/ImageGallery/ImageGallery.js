@@ -6,12 +6,12 @@ import ImageGalleryItem from '../ImageGalleryItem';
 const ImageGallery = ({ images, onImgClick }) => {
   return (
     <ul className={s.ImageGallery}>
-      {images.map(({ id, largeImageURL, webformatURL, tags }) => (
+      {images.map(({ id, src: {portrait, large}, alt }) => (
         <ImageGalleryItem
           key={id}
-          image={webformatURL}
-          tags={tags}
-          largeImageURL={largeImageURL}
+          img={portrait}
+          alt={alt}
+          largeImageURL={large}
           onModal={onImgClick}
         />
       ))}

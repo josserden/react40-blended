@@ -7,6 +7,7 @@ import { searchImage } from 'services/image-api';
 import Button from 'components/Button';
 import Spinner from 'components/Spinner';
 import Notification from 'components/Notification';
+import { SRLWrapper } from 'simple-react-lightbox';
 
 const INITIAL_STATE = {
   images: [],
@@ -40,7 +41,7 @@ class App extends Component {
   };
 
   fetchImg = () => {
-    // const { currentPage, searchQuery } = this.state;
+    const { currentPage, searchQuery } = this.state;
     // const options = { searchQuery, currentPage };
     // if (!searchQuery) {
     //   return;
@@ -63,6 +64,19 @@ class App extends Component {
     //   .finally(() => {
     //     this.setState({ isLoading: false });
     //   });
+    searchImage(searchQuery)
+      .then(data => {
+        console.log(data);
+        this.setState(prevState => ({
+          images: [...prevState.images, ...data],
+          // currentPage: prevState.currentPage + 1,
+          total: data.length,
+        }));
+      })
+      .catch(error => this.setState({ error }))
+      .finally(() => {
+        this.setState({ isLoading: false });
+      });
   };
 
   openModal = largeImageURL => {
@@ -94,18 +108,20 @@ class App extends Component {
         )}
         <Searchbar onSubmit={this.onChangeQuery} />
         <Container>
-          <ImageGallery images={images} onImgClick={this.openModal} />
+            <SRLWrapper>
+              <ImageGallery images={images} onImgClick={this.openModal} />
+            </SRLWrapper>
           {shouldRenderLoadMoreButton && (
             <Button text={'Load more'} onLoadClick={this.fetchImg} />
           )}
 
           {isLoading && <Spinner />}
 
-          {showModal && (
+          {/* {showModal && (
             <Modal onClose={this.toggleModal}>
               <img src={modalImage} alt="" />
             </Modal>
-          )}
+          )} */}
         </Container>
       </>
     );

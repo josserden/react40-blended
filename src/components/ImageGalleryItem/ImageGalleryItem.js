@@ -2,13 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import s from './ImageGalleryItem.module.css';
 
-const ImageGalleryItem = ({ image, tags, onModal, largeImageURL }) => {
+const ImageGalleryItem = ({ img, alt, onModal, largeImageURL }) => {
   return (
     <li className={s.ImageGalleryItem}>
       <img
         className={s.ImageGalleryItemImage}
-        src={image}
-        alt={tags}
+        src={img}
+        alt={alt}
         onClick={() => onModal(largeImageURL)}
       />
     </li>
