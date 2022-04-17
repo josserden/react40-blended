@@ -1,30 +1,22 @@
-import { useEffect } from 'react';
-import * as APIService from 'service/api-service';
+import { Routes, Route, Navigate, Router } from 'react-router-dom';
+import { Suspense } from 'react';
+
+import { Container } from '@chakra-ui/react';
+import Layout from 'components/Layout';
+import Home from 'views/Home';
+import ContactPage from 'views/ContactPage';
 
 export const App = () => {
-  useEffect(() => {
-    // APIService.getContacts().then(contacts => console.log(contacts));
-    // APIService.createContact({
-    //   name: 'Mari',
-    //   email: 'mari@gmail.com',
-    //   number: '099-999-6666',
-    // });
-    // APIService.deleteContact(24);
-  }, []);
-
   return (
-    <div
-      style={{
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontSize: 40,
-        textTransform: 'uppercase',
-        color: '#010101',
-      }}
-    >
-      React homework template
-    </div>
+    <>
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="contact-page" element={<ContactPage />} />
+
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Route>
+      </Routes>
+    </>
   );
 };
