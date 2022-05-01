@@ -1,203 +1,179 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useFetchTodos } from 'hooks/useFetchTodos';
 import {
-  getTodos,
-  deleteTodo,
-  createTodo,
-  updateTodo,
+  useGetTodosQuery,
+  useCreateTodoMutation,
+  useDeleteTodoMutation,
+  useUpdateTodoMutation,
 } from 'components/service/todo-service';
 
 export default function Home() {
   const [title, setTitle] = useState('');
   const [text, setText] = useState('');
-  const [todos, setTodos] = useState([]);
   const [filter, setFilter] = useState('');
   const [isEditing, setIsEditing] = useState(false);
   const [currentTodo, setCurrentTodo] = useState({});
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
-  useEffect(() => {
-    async function fetchTodos() {
-      try {
-        const todos = await getTodos();
-        setTodos(todos);
-        setLoading(false);
-      } catch (error) {
-        setError(error);
-        setLoading(false);
-      }
-    }
+  const { data, error, isLoading } = useGetTodosQuery('');
+  const [deleteTodo, { isLoading: isDeliting }] = useDeleteTodoMutation();
+  const [createTodo, { isLoading: isCreating }] = useCreateTodoMutation();
+  const [updateTodo, result] = useUpdateTodoMutation();
+  
+  if (data) { 
 
-    fetchTodos();
-  }, []);
+    console.log(result);
 
-  const onDeleteTodo = id => {
-    deleteTodo(id);
-    setTodos(todos.filter(todo => todo.id !== id));
-  };
-
-  const onToggleTodo = id => {
-    const toggleTodo = todos.find(todo => todo.id === id);
-
-    updateTodo(toggleTodo.id, {
-      ...toggleTodo,
-      completed: !toggleTodo.completed,
-    }).then(() => {
-      setTodos(
-        todos.map(todo =>
-          todo.id === id ? { ...todo, completed: !todo.completed } : todo
-        )
+    const showTodos = () => {
+      const normalizedFilter = filter.toLowerCase();
+      console.log(data);
+      return data.filter(todo =>
+        todo.title.toLowerCase().includes(normalizedFilter)
       );
-    });
-  };
-
-  const onEditTodoChange = e => {
-    setCurrentTodo({ ...currentTodo, title: e.target.value });
-  };
-
-  const handleInputChange = e => {
-    const { name, value } = e.target;
-
-    if (name === 'title') {
-      setTitle(value);
-    }
-
-    if (name === 'text') {
-      setText(value);
-    }
-  };
-
-  const handleFormSubmit = e => {
-    e.preventDefault();
-
-    const newTodo = {
-      title,
-      text,
-      completed: false,
     };
 
-    createTodo(newTodo).then(todo => {
-      setTodos([...todos, todo]);
-    });
-
-    setTitle('');
-    setText('');
-  };
-
-  const handleEditClick = id => {
-    const toggleTodo = todos.find(todo => todo.id === id);
-
-    setCurrentTodo(toggleTodo);
-    setIsEditing(true);
-  };
-
-  const handleEditSubmit = e => {
-    e.preventDefault();
-
-    const editTodo = {
-      ...currentTodo,
-      title: currentTodo.title,
+    const onEditTodoChange = e => {
+      setCurrentTodo({ ...currentTodo, title: e.target.value });
     };
 
-    updateTodo(currentTodo.id, editTodo).then(data => {
-      setTodos(todos.map(todo => (todo.id === data.id ? data : todo)));
-    });
+    const handleInputChange = e => {
+      const { name, value } = e.target;
 
-    setTitle('');
-  };
+      if (name === 'title') {
+        setTitle(value);
+      }
 
-  const handleSearchChange = e => {
-    const value = e.target.value.toLowerCase().trim();
-    setFilter(value);
-  };
+      if (name === 'text') {
+        setText(value);
+      }
+    };
 
-  const showTodos = () => {
-    const normalizedFilter = filter.toLowerCase();
+    const handleFormSubmit = e => {
+      e.preventDefault();
 
-    return todos.filter(todo =>
-      todo.title.toLowerCase().includes(normalizedFilter)
+      const newTodo = {
+        title,
+        text,
+        completed: false,
+      };
+
+      createTodo(newTodo);
+      setTitle('');
+      setText('');
+    };
+
+    const handleEditClick = id => {
+      const toggleTodo = data.find(todo => todo.id === id);
+
+      setCurrentTodo(toggleTodo);
+      setIsEditing(true);
+    };
+
+    const handleEditSubmit = e => {
+      e.preventDefault();
+
+      const editTodo = {
+        ...currentTodo,
+        title: currentTodo.title,
+      };
+
+      updateTodo(currentTodo.id, editTodo);
+      setTitle('');
+    };
+
+    const handleSearchChange = e => {
+      const value = e.target.value.toLowerCase().trim();
+      setFilter(value);
+    };
+
+    const onToggleTodo = (id) => {
+      const toggleTodo = data.find(todo => todo.id === id);
+
+      const updatedTodo = {
+        ...toggleTodo,
+        completed: !toggleTodo.completed,
+      };
+
+      updateTodo(toggleTodo.id, updatedTodo);
+    };
+    
+    return (
+      <>
+        <h1>Home</h1>
+  
+        {data.length > 2 && (
+          <input
+            type="text"
+            name="search"
+            placeholder="Search"
+            onChange={handleSearchChange}
+            value={filter}
+          />
+        )}
+  
+        {isEditing ? (
+          <form onSubmit={handleEditSubmit}>
+            <h2>Edit Todo</h2>
+  
+            <label htmlFor="editTodo">Edit todo: </label>
+  
+            <input
+              name="editTodo"
+              type="text"
+              placeholder="Edit todo"
+              value={currentTodo.title}
+              onChange={onEditTodoChange}
+            />
+  
+            <button type="submit">Update</button>
+            <button onClick={() => setIsEditing(false)}>Cancel</button>
+          </form>
+        ) : (
+          <form onSubmit={handleFormSubmit}>
+            <input
+              type="text"
+              name="title"
+              value={title}
+              placeholder="Enter title"
+              onChange={handleInputChange}
+            />
+  
+            <input
+              type="text"
+              name="text"
+              value={text}
+              placeholder="Enter todo text"
+              onChange={handleInputChange}
+            />
+            <button>Add Todo</button>
+          </form>
+        )}
+  
+        {isLoading && <p>Loading...</p>}
+  
+        {error && <p>Error: {error.message}</p>}
+  
+        <ul>
+          {showTodos().map(({ id, title, completed }) => (
+            <li key={id}>
+              <Link to={`/${id}`}>
+                <h2>{title}</h2>
+              </Link>
+  
+              <input
+                type="checkbox"
+                checked={completed}
+                onChange={() => onToggleTodo(id)}
+              />
+              <button type="button" onClick={() => handleEditClick(id)}>
+                Edit
+              </button>
+              <button type="button" onClick={() => deleteTodo(id)}>
+                Delete
+              </button>
+            </li>
+          ))}
+        </ul>
+      </>
     );
   };
-
-  return (
-    <>
-      <h1>Home</h1>
-
-      {todos.length > 2 && (
-        <input
-          type="text"
-          name="search"
-          placeholder="Search"
-          onChange={handleSearchChange}
-          value={filter}
-        />
-      )}
-
-      {isEditing ? (
-        <form onSubmit={handleEditSubmit}>
-          <h2>Edit Todo</h2>
-
-          <label htmlFor="editTodo">Edit todo: </label>
-
-          <input
-            name="editTodo"
-            type="text"
-            placeholder="Edit todo"
-            value={currentTodo.title}
-            onChange={onEditTodoChange}
-          />
-
-          <button type="submit">Update</button>
-          <button onClick={() => setIsEditing(false)}>Cancel</button>
-        </form>
-      ) : (
-        <form onSubmit={handleFormSubmit}>
-          <input
-            type="text"
-            name="title"
-            value={title}
-            placeholder="Enter title"
-            onChange={handleInputChange}
-          />
-
-          <input
-            type="text"
-            name="text"
-            value={text}
-            placeholder="Enter todo text"
-            onChange={handleInputChange}
-          />
-          <button>Add Todo</button>
-        </form>
-      )}
-
-      {loading && <p>Loading...</p>}
-
-      {error && <p>Error: {error.message}</p>}
-
-      <ul>
-        {showTodos().map(({ id, title, completed }) => (
-          <li key={id}>
-            <Link to={`/${id}`}>
-              <h2>{title}</h2>
-            </Link>
-
-            <input
-              type="checkbox"
-              checked={completed}
-              onChange={() => onToggleTodo(id)}
-            />
-            <button type="button" onClick={() => handleEditClick(id)}>
-              Edit
-            </button>
-            <button type="button" onClick={() => onDeleteTodo(id)}>
-              Delete
-            </button>
-          </li>
-        ))}
-      </ul>
-    </>
-  );
 }

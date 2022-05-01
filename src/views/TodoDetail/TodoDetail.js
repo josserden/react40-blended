@@ -1,26 +1,29 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useFetchTodoDetail } from 'hooks/useFetchTodoDetail';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useGetTodoQuery } from 'components/service/todo-service';
 
 export default function TodoDetail() {
-  const { todo, loading, error } = useFetchTodoDetail();
+  const { todoId } = useParams();
+  const { data, isLoading, error } = useGetTodoQuery(todoId);
   const navigate = useNavigate();
-  const { title, description, createdAt } = todo;
+  if (data) {
+    const { title, description, createdAt } = data;
 
-  return (
-    <>
-      <h1>Todo Detail</h1>
+    return (
+      <>
+        <h1>Todo Detail</h1>
 
-      <button type="button" onClick={() => navigate('/')}>
-        go Back
-      </button>
+        <button type="button" onClick={() => navigate('/')}>
+          go Back
+        </button>
 
-      {loading && <p>Loading...</p>}
-      {error && <p>Error: {error.message}</p>}
+        {isLoading && <p>Loading...</p>}
+        {error && <p>Error: {error.message}</p>}
 
-      <h2>{title}</h2>
-      <p>{description}</p>
-      <p>{createdAt}</p>
-    </>
-  );
+        <h2>{title}</h2>
+        <p>{description}</p>
+        <p>{createdAt}</p>
+      </>
+    );
+  }
 }
